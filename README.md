@@ -3,19 +3,99 @@
 
 ## Introduction
 
+### About the Author
+
 by John Mark Schofield
 
 jms@schof.org
 
 http://schof.org
 
+
+### Thanks
+
+This cheatsheet is based on the ["Pro Git" book by Scott Chacon](http://git-scm.com/book).
+
+In addition, I owe a debt to the Git class I took from Peter Bell ([GitHub](https://github.com/PeterBell) / [Twitter](https://twitter.com/peterbell)).
+
 ## Core Concepts
 
 ### The Three Places of Git
-* __working area__ -- The visible directory where you edit files.
-* __staging area__ -- Where files live once you "git add" them, but before you commit them. AKA __cached area__.
-* __committed__ -- Not referred to as an area, but where files go when they are committed.
 
+* __working area__ -- The visible directory where you edit files. AKA __Working Directory__.
+* __staging area__ -- Where files go once you "git add" them, but before you commit them. AKA __cached area__, AKA __index__.
+* __history__ -- Where files go when they are committed. AKA __committed area__.
+
+
+### Writing Meaningful Commit Messages
+
+Take the time to break changes up into separate, atomic commits. Each commit should be a unit of work.
+
+Write meaningful commit messages. You should use commits to tell a story. We can see what files changed by looking at the commit; we don't need that in the commit message. Each commit should tell WHY you made the change. 
+
+
+## Configuring Git
+
+It's safe (and a good idea) to do all of these configuration steps on your computer. Once you've done that, you can move your ~/.gitconfig around by hand -- you don't have to re-enter the config every time.
+
+### Identity
+```
+git config --global user.name
+# Displays your username
+
+git config --global user.name "Foobar Tweedly"
+# Sets username
+
+git config --global user.email
+# Displays email
+
+git config --global user.email foorbar@tweedly.com
+# Sets email
+
+git config --global credential.helper osxkeychain
+# If this fails, read https://help.github.com/articles/set-up-git
+```
+
+
+### Cross Platform Operation
+
+```
+# On Mac and Linux:
+git config --global core.autocrlf input
+
+# On windows:
+git config --global core.autocrlf true
+```
+
+
+### Making Git Behave better
+
+Making git pretty:
+```
+git config --global color.ui true
+```
+
+Making git concise:
+```
+git config --global alias.hist "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short"
+git config --global alias.type "cat-file -t"
+git config --global alias.dump "cat-file -p"
+git config --global alias.lg "log --oneline --decorate --graph --all"
+git config --global alias.p "pull --rebase"
+
+git config --global push.default simple
+```
+
+Making git safe:
+```
+git config --global branch.autosetuprebase always
+git config --global branch.*branch-name*.rebase true
+
+git config --global merge.ff false
+```
+
+
+## Operations
 
 ### Creating and Cloning Repos and Modifying the Working Directory
 * __git init__ -- Turns a regular directory into a git working area (with a hidden .git repo).
