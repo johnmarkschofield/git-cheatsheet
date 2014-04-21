@@ -24,7 +24,7 @@ In addition, I owe a debt to the Git class I took from Peter Bell ([GitHub](http
 
 * __working area__ -- The visible directory where you edit files. AKA __Working Directory__.
 * __staging area__ -- Where files go once you "git add" them, but before you commit them. AKA __cached area__, AKA __index__.
-* __history__ -- Where files go when they are committed. AKA __committed area__.
+* __committed area__ -- Where files go when they are committed. AKA __history__.
 
 
 ### Writing Meaningful Commit Messages
@@ -101,22 +101,28 @@ git config --global merge.ff false
 * __git init__ -- Turns a regular directory into a git working area (with a hidden .git repo).
 * __git clone URL__ -- Clones a repo (from github, etc.) to a local git repo with a working area.
 * __git checkout -- FILENAME__ -- Disgard changes to a file and revert it to the last version committed.
+* __git checkout FOOBAR__ -- Checks out the branch "FOOBAR" which must already exist.
+* __git checkout -b FOOBAR__ -- Creates the branch "FOOBAR" and checks it out.
 
 ### Modifying the Staging Area
 * __git add FILENAME__ -- Adds a file and its contents to the staging area.
 * __git rm FILENAME__ -- Removes a file from the staging area and the working area. Use with "-f" option if the file in the working area has unstaged changes.
 * __git rm --cached FILENAME__ -- Removes a file from the staging area, *while leaving it in the working area.*
-* __git mv FILENAME1 FILENAME2__ -- Renames (moves) a file. Equivalent to __mv FILENAME1 FILENAME2 && git rm FILENAME1 && git add FILENAME2__.
+* __git mv FILENAME1 FILENAME2__ -- Renames (moves) a file. Equivalent to __mv FILENAME1 FILENAME2 && git rm FILENAME1 && git add FILENAME2__. Git autodetects moved files if they have more than 50% the same content. This sometimes leads to missdetecting two separate files as the same file.
 * __git reset HEAD FILENAME__ -- If you've just staged a file, "reset HEAD" will unstage that file (the staged version is the same as in HEAD, the most recent commit).
 
-### Modifying Committed Files
+### Modifying the Committed Area
 * __git commit__ -- Commits the state (contents, if they've been removed or updated, etc.) of files in the staging area.
-* __git commit --amend__ -- Modifies the previous commit. Ex: "git commit -m 'initial commit' && git add forgotten_file && git commit --amend"
+* __git commit -m "commit message"__ -- "-m" option to commit lets you specify the commit message. Otherwise git opens an editor for you to write the commit message.
+* __git commit -a__ -- Automatically add all modified files. Does not add new files. Does automatically remove deleted files.
+* __git commit --amend__ -- Modifies the previous commit. e.g. "git commit -m 'initial commit' && git add forgotten_file && git commit --amend"
 
 ### Asking Git Questions
 * __git status__ -- Lists changed files in staging and working areas, and which branch is in use in the working area.
 * __git diff__ -- Displays a diff between files in the working area and files in the staging area.
 * __git diff --cached__ -- Displays a diff between files in the staging area and committed files. AKA __git diff --staged__.
+* __git difftool__ -- Same as "git diff" but using an external diff viewer. I like [Kaleidoscope](http://www.kaleidoscopeapp.com/).
+* __git difftool --cached__ -- Same as "git diff --cached" but using an external diff viewer.
 * __git log__ -- Prints metadata about git commits, newest on top.
 * __git log -p__ -- Displays the diff introduced with each commit.
 * __git log -p -2__ -- Same as above, but only two commits. Use --n for n commits.
@@ -124,8 +130,9 @@ git config --global merge.ff false
 * __git log --oneline__ -- Git log output with less information so each commit fits on one line.
 * __git log --pretty=[oneline|short|full|fuller]__ -- Git log output with different formatting and levels of detail.
 * __git log --graph__ -- Show branch and merge history.
-* 
 
 ### Working with Remotes
 * __git remote__ -- Shows the remote servers configured for this repo.
 * __git remote -v__ -- Shows you the remote servers and their urls.
+* __git remote add origin https://FOOBAR__ -- Adds a remote with name "origin" and URL "FOOBAR." "Origin" is a convention for the main remote.
+* __git push -u origin master__ : First push after adding the remote. The "-u" sets the origin as upstream for master.
